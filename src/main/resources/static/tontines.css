@@ -1,0 +1,174 @@
+/*
+   1. VARIABLES CSS (:root)
+   Stocke les couleurs et valeurs réutilisables dans tout le fichier.
+*/
+:root {
+    --primary-color: #4f46e5;       /* Couleur principale (Bleu) */
+    --primary-hover: #4338ca;       /* Couleur au survol des boutons */
+    --bg-color: #f8fafc;            /* Couleur de fond de la page */
+    --card-bg: #ffffff;             /* Couleur de fond des blocs/cartes */
+    --text-color: #1e293b;          /* Couleur principale du texte */
+    --text-muted: #64748b;         /* Couleur du texte secondaire/estompé */
+    --border-color: #e2e8f0;        /* Couleur des bordures */
+}
+
+/*
+   2. REINITIALISATION DE BASE (RESET)
+   Annule les marges internes et externes par défaut données par les navigateurs.
+*/
+* {
+    box-sizing: border-box; /* Inclut les bordures et rembourrages dans la largeur totale */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Police moderne */
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 2rem;
+}
+
+/*
+   3. DISPOSITION ET CONTENEURS
+*/
+.container {
+    max-width: 1000px; /* Largeur maximale pour éviter que le contenu ne soit trop étalé */
+    margin: 0 auto;    /* Centre le conteneur horizontalement */
+}
+
+header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+h1, h2 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+/*
+   4. STYLES DU FORMULAIRE
+*/
+form {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;                                 /* Coins arrondis */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);       /* Ombre portée légère */
+    margin-bottom: 3rem;
+}
+
+.form-group {
+    margin-bottom: 1.2rem; /* Espace entre chaque champ de saisie */
+}
+
+.form-group label {
+    display: block; /* Place le texte de la étiquette au-dessus du champ */
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease; /* Animation douce sur le changement de couleur */
+}
+
+/* Change la couleur de la bordure lorsqu'un champ est sélectionné par l'utilisateur */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+}
+
+.form-group textarea {
+    resize: vertical; /* Autorise le redimensionnement uniquement en hauteur */
+    min-height: 80px;
+}
+
+/*
+   5. BOUTONS
+*/
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer; /* Affiche la main au survol */
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+/*
+   6. TABLEAU DE DONNÉES
+*/
+.table-container {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Empêche les éléments enfants d'accéder au-delà des coins arrondis */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Fusionne les bordures des cellules entre elles */
+    text-align: left;
+}
+
+thead {
+    background-color: #f1f5f9;
+}
+
+th, td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+
+/* Effet au survol des lignes du tableau */
+tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/*
+   7. BADGES DE FRÉQUENCE
+*/
+.badge {
+    padding: 0.25rem 0.65rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge-mensuelle {
+    background-color: #dbeafe; /* Fond bleu clair */
+    color: #1e40af;            /* Texte bleu foncé */
+}
+
+.badge-hebdo {
+    background-color: #dcfce7; /* Fond vert clair */
+    color: #166534;            /* Texte vert foncé */
+}

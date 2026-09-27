@@ -1,18 +1,23 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tontines</title>
     <link rel="stylesheet" th:href="@{/tontines.css}" />
+    <!-- Font Awesome pour l'icône de retour -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body class="container mt-5">
 
 <div class="container">
 
-    <!-- EN-TÊTE DE LA PAGE -->
-    <header>
+    <!-- EN-TÊTE DE LA PAGE AVEC BOUTON RETOUR -->
+    <header class="header-with-btn">
+        <a th:href="@{/dashboard}" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Retour au Dashboard
+        </a>
         <h1>Gestion des Tontines</h1>
     </header>
 
@@ -20,17 +25,11 @@
     <section class="form-section">
         <h2>Créer une nouvelle tontine</h2>
 
-        <!--
-            th:action : Définit l'URL vers laquelle le formulaire sera envoyé en POST.
-            th:object : Associe ce formulaire à l'objet DTO 'nouvelleTontine' transmis par le TontineViewController.
-            method="post" : Envoie les données au serveur sous forme de requête HTTP POST.
-        -->
         <form th:action="@{/tontines/sauvegarder}" th:object="${nouvelleTontine}" method="post">
 
             <!-- Champ pour le nom de la tontine -->
             <div class="form-group">
                 <label for="nom">Nom de la tontine :</label>
-                <!-- th:field="*{nom}" lie ce champ de saisie à la propriété 'nom' du DTO -->
                 <input type="text" id="nom" th:field="*{nom}" placeholder="Ex: Tontine Famille" required />
             </div>
 
@@ -58,7 +57,6 @@
             <!-- Champ pour la date de début -->
             <div class="form-group">
                 <label for="dateDebut">Date de début :</label>
-                <!-- type="datetime-local" permet de sélectionner à la fois la date et l'heure -->
                 <input type="datetime-local" id="dateDebut" th:field="*{dateDebut}" required />
             </div>
 
@@ -83,26 +81,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!--
-                    th:each="tontine : ${tontines}" :
-                    Boucle qui parcourt la liste 'tontines' fournie par le Controller et génère une ligne <tr> pour chaque élément.
-                -->
                 <tr th:each="tontine : ${tontines}">
-                    <!-- th:text remplace le contenu du texte par la valeur calculée dynamiquement par Java -->
                     <td th:text="${tontine.nom}">Nom exemple</td>
                     <td th:text="${tontine.description}">Description exemple</td>
-                    <td th:text="${tontine.montantCotisation} + ' FCFA'">0 FCFA</td>
+                    <td th:text="${tontine.montantCotisation != null ? tontine.montantCotisation + ' FCFA' : '0 FCFA'}">0 FCFA</td>
 
-                    <!-- Application conditionnelle d'une classe CSS selon la fréquence -->
                     <td>
-                                <span th:text="${tontine.frequence}"
-                                      th:classappend="${tontine.frequence == 'MENSUELLE'} ? 'badge badge-mensuelle' : 'badge badge-hebdo'">
-                                      MENSUELLE
-                                </span>
+                        <span th:text="${tontine.frequence}"
+                              th:classappend="${tontine.frequence == 'MENSUELLE'} ? 'badge badge-mensuelle' : 'badge badge-hebdo'">
+                              MENSUELLE
+                        </span>
                     </td>
 
-                    <!-- Formatage de la date LocalDateTime au format jour/mois/année heure:minute -->
-                    <td th:text="${#temporals.format(tontine.dateDebut, 'dd/MM/yyyy HH:mm')}">01/01/2026 00:00</td>
+                    <td th:text="${tontine.dateDebut != null ? #temporals.format(tontine.dateDebut, 'dd/MM/yyyy HH:mm') : '-'}">01/01/2026 00:00</td>
                 </tr>
                 </tbody>
             </table>

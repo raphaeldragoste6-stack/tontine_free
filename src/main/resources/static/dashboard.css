@@ -1,88 +1,134 @@
+/* Variables de couleurs */
+:root {
+    --bg-dark: #0d1117;
+    --bg-card: #161b22;
+    --bg-sidebar: #121721;
+    --primary-blue: #0052cc;
+    --primary-blue-hover: #003d99;
+    --primary-gold: #ff9900; /* Utilisé spécifiquement pour la marque / logo */
+    --text-light: #f0f6fc;
+    --text-muted: #8b949e;
+    --border-color: #30363d;
+    --danger-red: #da3633;
+}
+
+/* Reset & Layout Général */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background-color: #0f172a;
-    color: #f8fafc;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     min-height: 100vh;
 }
 
-/* Layout général */
 .dashboard-layout {
     display: flex;
     min-height: 100vh;
-    flex-direction: row;
 }
 
-/* Sidebar pour grands écrans */
+/* =========================================================
+   SIDEBAR (Barre Latérale)
+   ========================================================= */
 .sidebar {
-    width: 260px;
-    background-color: #1e293b;
-    border-right: 1px solid #334155;
-    padding: 1.5rem;
+    width: 280px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex-shrink: 0;
+    padding: 1.5rem 1rem;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+/* Brand (Logo + Nom de l'application avec le style identique à index) */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.brand .app-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
 }
 
 .brand h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 800;
     color: #ffffff;
+    letter-spacing: 0.5px;
 }
 
 .brand h2 span {
-    color: #38bdf8;
+    color: var(--primary-gold); /* La touche jaune dorée sur "Free" */
 }
 
+/* Menu de Navigation (Gardé entièrement Bleu) */
 .nav-menu {
-    margin-top: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
     flex: 1;
 }
 
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
     padding: 0.75rem 1rem;
-    color: #94a3b8;
+    color: var(--text-muted);
     text-decoration: none;
+    font-weight: 500;
     border-radius: 8px;
-    font-size: 0.9rem;
     transition: all 0.2s ease;
 }
 
-.nav-link:hover, .nav-link.active {
-    background-color: #334155;
-    color: #38bdf8;
-    font-weight: 600;
+.nav-link .icon {
+    font-size: 1.2rem;
 }
 
-.nav-link .icon {
-    font-size: 1.1rem;
+.nav-link:hover {
+    background-color: rgba(0, 82, 204, 0.15);
+    color: var(--text-light);
+}
+
+.nav-link.active {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    font-weight: 600;
 }
 
 /* Profil Utilisateur */
 .user-card {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding-top: 1rem;
-    border-top: 1px solid #334155;
+    gap: 12px;
+    padding: 0.85rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-top: auto;
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
+.user-card .avatar {
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    border: 2px solid #38bdf8;
+    object-fit: cover;
+    border: 2px solid var(--primary-blue);
 }
 
 .user-details {
@@ -90,9 +136,9 @@ body {
 }
 
 .user-name {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-light);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -100,219 +146,277 @@ body {
 
 .user-email {
     font-size: 0.75rem;
-    color: #64748b;
+    color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* Zone principale */
+/* =========================================================
+   ZONE PRINCIPALE (Main Content)
+   ========================================================= */
 .main-content {
+    margin-left: 280px;
     flex: 1;
-    padding: 2rem;
-    overflow-y: auto;
-    width: 100%;
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
+/* Topbar */
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
-    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .welcome-text h1 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    margin-bottom: 0.3rem;
+    color: #ffffff;
 }
 
 .welcome-text h1 span {
-    color: #38bdf8;
+    color: #4d94ff;
 }
 
 .welcome-text p {
-    color: #94a3b8;
-    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 4px;
 }
 
 .btn-logout {
-    background-color: #334155;
-    color: #f8fafc;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
+    background-color: transparent;
+    color: var(--danger-red);
+    border: 1px solid var(--danger-red);
     border-radius: 8px;
     text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    white-space: nowrap;
-    transition: background 0.2s;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
 }
 
 .btn-logout:hover {
-    background-color: #ef4444;
+    background-color: var(--danger-red);
+    color: #ffffff;
 }
 
-/* Cartes Stats */
+/* Cartes de Statistiques (Style Bleu d'origine) */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.25rem;
-    margin-bottom: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
 }
 
 .stat-card {
-    background-color: #1e293b;
-    border: 1px solid #334155;
-    padding: 1.25rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.2rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-blue);
 }
 
 .stat-icon {
-    font-size: 1.8rem;
-    background-color: #0f172a;
-    padding: 0.75rem;
-    border-radius: 10px;
+    font-size: 2rem;
+    background-color: rgba(0, 82, 204, 0.15);
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
 }
 
 .stat-info h3 {
-    font-size: 0.8rem;
-    color: #94a3b8;
-    margin-bottom: 0.2rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .stat-number {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #38bdf8;
+    color: #ffffff;
+    margin-top: 4px;
 }
 
-/* Actions Rapides */
+/* Actions Rapides (Style Bleu d'origine) */
 .quick-actions h2 {
-    font-size: 1.2rem;
-    margin-bottom: 1.25rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }
 
 .actions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
 .action-card {
-    background-color: #1e293b;
-    border: 1px solid #334155;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 1.25rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 1rem;
 }
 
 .action-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.8rem;
 }
 
 .action-header h3 {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .badge {
-    background-color: rgba(56, 189, 248, 0.15);
-    color: #38bdf8;
-    padding: 0.2rem 0.5rem;
-    border-radius: 6px;
+    background-color: rgba(0, 82, 204, 0.2);
+    color: #4d94ff;
+    padding: 4px 10px;
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
 }
 
 .badge-secondary {
-    background-color: rgba(148, 163, 184, 0.15);
-    color: #94a3b8;
+    background-color: rgba(139, 148, 158, 0.2);
+    color: var(--text-muted);
 }
 
 .action-card p {
-    color: #94a3b8;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    margin-bottom: 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
+/* Boutons d'action Bleus */
 .btn-action {
-    display: block;
-    background-color: #38bdf8;
-    color: #0f172a;
-    padding: 0.75rem;
-    border-radius: 8px;
-    text-decoration: none;
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--primary-blue);
+    color: #ffffff;
     font-weight: 600;
     font-size: 0.9rem;
+    text-decoration: none;
+    border-radius: 8px;
     text-align: center;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
 }
 
 .btn-action:hover {
-    background-color: #0284c7;
-    color: #ffffff;
+    background-color: var(--primary-blue-hover);
+    transform: translateY(-2px);
 }
 
 .btn-disabled {
-    background-color: #334155;
-    color: #64748b;
+    background-color: #21262d;
+    color: var(--text-muted);
     pointer-events: none;
+    border: 1px solid var(--border-color);
 }
 
-/* =======================================================
-   ADAPTATION MOBILE & TABLETTE (RESPONSIVE DESIGN)
-   ======================================================= */
+/* Responsive Mobile */
 @media (max-width: 768px) {
-    .dashboard-layout {
-        flex-direction: column; /* La sidebar passe au-dessus du contenu */
-    }
-
     .sidebar {
         width: 100%;
+        height: auto;
+        position: relative;
         border-right: none;
-        border-bottom: 1px solid #334155;
-        padding: 1rem;
-        gap: 1rem;
-    }
-
-    .nav-menu {
-        margin-top: 1rem;
-        flex-direction: row; /* Aligne le menu horizontalement sur mobile */
-        overflow-x: auto; /* Permet de scroller le menu de gauche à droite */
-        padding-bottom: 0.5rem;
-    }
-
-    .nav-link {
-        white-space: nowrap;
-    }
-
-    .user-card {
-        padding-top: 0.75rem;
+        border-bottom: 1px solid var(--border-color);
     }
 
     .main-content {
-        padding: 1.25rem;
+        margin-left: 0;
+        padding: 1.5rem 1rem;
     }
 
     .topbar {
         flex-direction: column;
         align-items: flex-start;
+        gap: 1rem;
     }
 
-    .btn-logout {
-        align-self: flex-end;
+    .dashboard-layout {
+        flex-direction: column;
     }
+}
 
-    .stats-grid, .actions-grid {
-        grid-template-columns: 1fr; /* 1 seule colonne sur mobile */
-    }
+
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.85rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-top: auto;
+}
+
+/* Style de la photo de profil */
+.user-card .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-blue);
+    flex-shrink: 0;
+}
+
+/* Style du cercle si pas de photo (Initiale) */
+.avatar-placeholder {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: 2px solid var(--primary-blue);
+    flex-shrink: 0;
+}
+
+.user-details {
+    overflow: hidden;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

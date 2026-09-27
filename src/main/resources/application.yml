@@ -2,6 +2,59 @@ spring:
   application:
     name: tontinepro
 
+  # Profil actif par défaut sur ta machine
+  profiles:
+    active: dev
+
+  # Security OAuth2 (Commun à dev et prod)
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+
+server:
+  port: ${PORT:8080}
+
+---
+# =======================================================
+# CONFIGURATION LOCAL (DEVELOPPEMENT - H2)
+# =======================================================
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:h2:mem:tontinedb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+---
+# =======================================================
+# CONFIGURATION RENDER (PRODUCTION - POSTGRESQL)
+# =======================================================
+spring:
+  config:
+    activate:
+      on-profile: prod
+
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -21,17 +74,3 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         boot:
           allow_jdbc_metadata_access: true
-
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            scope:
-              - email
-              - profile
-
-server:
-  port: ${PORT:8080}

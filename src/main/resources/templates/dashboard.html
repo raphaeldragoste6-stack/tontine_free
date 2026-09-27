@@ -1,102 +1,171 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - TontineFree</title>
+    <title>TontineFree - Tableau de Bord</title>
     <link rel="stylesheet" th:href="@{/dashboard.css}">
-    <!-- Font Awesome pour les icônes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Intégration de Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div class="app-layout">
+<div class="dashboard-layout">
 
-    <!-- BARRE HAUTE MOBILE (Visible uniquement sur mobile) -->
-    <header class="mobile-topbar">
+    <!-- En-tête Mobile avec Menu Hamburger -->
+    <div class="mobile-header">
         <div class="brand">
-            <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
-            <span class="brand-name">Tontine<span>Free</span></span>
+            <img th:src="@{/images/logo-tontine.jpg}" src="/images/logo-tontine.jpg" alt="Logo Tontine Free" class="app-logo">
+            <h2>Tontine<span>Free</span></h2>
         </div>
-        <button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu">
+        <button class="mobile-menu-btn" id="menuToggle" aria-label="Toggle Navigation">
             <i class="fa-solid fa-bars"></i>
         </button>
-    </header>
+    </div>
 
-    <!-- BARRE DE NAVIGATION SIDEBAR -->
-    <aside id="sidebar" class="sidebar">
+    <!-- Overlay sombre quand le menu mobile est ouvert -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <div class="sidebar-brand desktop-only">
-            <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
-            <span class="brand-name">Tontine<span>Free</span></span>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand brand-desktop">
+            <img th:src="@{/images/logo-tontine.jpg}" src="/images/logo-tontine.jpg" alt="Logo Tontine Free" class="app-logo">
+            <h2>Tontine<span>Free</span></h2>
         </div>
 
         <nav class="nav-menu">
-            <a th:href="@{/dashboard}" class="nav-item active">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span>Dashboard</span>
+            <a href="/dashboard" class="nav-link active">
+                <span class="icon"><i class="fa-solid fa-chart-pie"></i></span> Dashboard
             </a>
-            <a th:href="@{/tontines}" class="nav-item">
-                <i class="fa-solid fa-wallet"></i>
-                <span>Mes Tontines</span>
+            <a href="/tontines" class="nav-link">
+                <span class="icon"><i class="fa-solid fa-vault"></i></span> Mes Tontines
             </a>
-            <a th:href="@{/membres}" class="nav-item">
-                <i class="fa-solid fa-users"></i>
-                <span>Membres</span>
+            <a href="/membres" class="nav-link">
+                <span class="icon"><i class="fa-solid fa-users"></i></span> Membres
             </a>
-            <a th:href="@{/statistiques}" class="nav-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Statistiques</span>
+            <a href="/statistiques" class="nav-link">
+                <span class="icon"><i class="fa-solid fa-chart-line"></i></span> Statistiques
             </a>
-            <a th:href="@{/parametres}" class="nav-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>Paramètres</span>
+            <a href="/parametres" class="nav-link">
+                <span class="icon"><i class="fa-solid fa-gear"></i></span> Paramètres
             </a>
 
-            <!-- BOUTON DÉCONNEXION EN BAS DE PARAMÈTRES -->
-            <a th:href="@{/logout}" class="nav-item logout-item">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Déconnexion</span>
+            <a class="btn-logout" th:href="@{/logout}">
+                <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
             </a>
         </nav>
 
-        <!-- CARTE PROFIL UTILISATEUR -->
-        <div class="user-profile">
-            <img th:src="${userPicture != null ? userPicture : '/images/default-avatar.png'}" alt="Avatar" class="avatar">
-            <div class="user-info">
-                <span class="user-name" th:text="${userName}">Raphael Dragoste</span>
-                <span class="user-email" th:text="${userEmail}">raphaeldragoste6@gmail.com</span>
+        <!-- Profil Utilisateur dans la Sidebar -->
+        <div class="user-card">
+            <!-- Si la photo existe -->
+            <img th:if="${userPicture != null and !#strings.isEmpty(userPicture)}"
+                 th:src="${userPicture}"
+                 class="avatar"
+                 alt="Avatar"
+                 referrerpolicy="no-referrer" />
+
+            <!-- Si pas de photo -->
+            <div th:unless="${userPicture != null and !#strings.isEmpty(userPicture)}" class="avatar-placeholder">
+                <span th:text="${userName != null and !#strings.isEmpty(userName) ? userName.substring(0,1).toUpperCase() : 'U'}">U</span>
+            </div>
+
+            <div class="user-details">
+                <p class="user-name" th:text="${userName}">Raphael Dragoste</p>
+                <p class="user-email" th:text="${userEmail}">raphaeldragoste6@gmail.com</p>
+
             </div>
         </div>
-
     </aside>
 
-    <!-- OVERLAY POUR FERMER LE MENU EN CLIQUANT À L'EXTÉRIEUR (MOBILE) -->
-    <div id="overlay" class="overlay"></div>
-
-    <!-- CONTENU PRINCIPAL DE LA PAGE -->
+    <!-- Zone Principale -->
     <main class="main-content">
-        <header class="content-header">
-            <h1>Ravi de vous revoir, <span th:text="${userName}">Raphael Dragoste</span> 👋</h1>
-            <p>Voici un aperçu de vos activités de tontines.</p>
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="welcome-text">
+                <h1>Ravi de vous revoir, <span th:text="${userName}">Utilisateur</span> 👋</h1>
+                <p>Voici un aperçu de vos activités de tontines.</p>
+            </div>
+
         </header>
 
-        <!-- Ton contenu principal de dashboard ici -->
+        <!-- Statistiques Rapides -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #3b82f6;"><i class="fa-solid fa-folder-closed"></i></div>
+                <div class="stat-info">
+                    <h3>Tontines Enregistrées</h3>
+                    <p class="stat-number" th:text="${totalTontines}">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #10b981;"><i class="fa-solid fa-wallet"></i></div>
+                <div class="stat-info">
+                    <h3>Cotisations Totales</h3>
+                    <p class="stat-number">
+                        <span th:text="${totalCotisations != null ? totalCotisations : 0}">0</span> FCFA
+                    </p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #a855f7;"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="stat-info">
+                    <h3>Prochain Tirage</h3>
+                    <p class="stat-number" th:text="${prochainBeneficiaire != null ? prochainBeneficiaire : 'Aucun'}">Aucun</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #f43f5e;"><i class="fa-solid fa-clock"></i></div>
+                <div class="stat-info">
+                    <h3>Cotisations en Retard</h3>
+                    <p class="stat-number" style="color: #f43f5e;" th:text="${cotisationsEnRetard != null ? cotisationsEnRetard : 0}">0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions Rapides -->
+        <section class="quick-actions">
+            <h2>Que souhaitez-vous faire ?</h2>
+            <div class="actions-grid">
+
+                <div class="action-card">
+                    <div class="action-header">
+                        <h3>Gestion des Tontines</h3>
+                        <span class="badge">Espace Tontine</span>
+                    </div>
+                    <p>Créez de nouvelles tontines, consultez la liste et gérez les cotisations.</p>
+                    <a href="/tontines" class="btn-action">Accéder aux Tontines →</a>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-header">
+                        <h3>Mes Invitations</h3>
+                        <span class="badge badge-secondary">0 En attente</span>
+                    </div>
+                    <p>Consultez les tontines auxquelles vous avez été invité par d'autres membres.</p>
+                    <a href="#" class="btn-action btn-disabled">Voir les invitations</a>
+                </div>
+
+            </div>
+        </section>
+
     </main>
 
 </div>
 
-<!-- SCRIPT JS POUR LE MENU BURGER -->
+<!-- Script JS pour l'ouverture/fermeture du menu hamburger -->
 <script>
-    const menuToggle = document.getElementById('menu-toggle');
+    const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
 
     function toggleMenu() {
         sidebar.classList.toggle('open');
-        overlay.classList.toggle('active');
-
-        // Switch icône burger / fermeture
+        sidebarOverlay.classList.toggle('active');
         const icon = menuToggle.querySelector('i');
         if (sidebar.classList.contains('open')) {
             icon.classList.remove('fa-bars');
@@ -108,7 +177,7 @@
     }
 
     menuToggle.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', toggleMenu);
+    sidebarOverlay.addEventListener('click', toggleMenu);
 </script>
 
 </body>

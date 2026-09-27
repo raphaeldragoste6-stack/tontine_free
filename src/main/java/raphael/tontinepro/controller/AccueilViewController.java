@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AccueilViewController {
 
     @GetMapping("/")
-    public String accueil() {
-        return "index"; // Renvoie vers index.html
+    public String afficherAccueil() {
+        return "index"; // Va chercher le fichier src/main/resources/templates/index.html
     }
 }

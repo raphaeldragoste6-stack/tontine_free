@@ -3,9 +3,9 @@ spring:
     name: tontinepro
 
   datasource:
-    url: jdbc:postgresql://dpg-daqa8oou01pc73fefgt0-a.frankfurt-postgres.render.com:5432/tontine_db_5rpr?sslmode=require&connectTimeout=30&socketTimeout=30
-    username: tontine_db_5rpr_user
-    password: IZ1cCKR2mhFWVdEmblZMd3BDbzjc8wQ7
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       initialization-fail-timeout: 60000
@@ -20,15 +20,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         boot:
-          allow_jdbc_metadata_access: false
+          allow_jdbc_metadata_access: true
 
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: ${GOOGLE_CLIENT_ID:votre_client_id_temp_local}
-            client-secret: ${GOOGLE_CLIENT_SECRET:votre_client_secret_temp_local}
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope:
               - email
               - profile

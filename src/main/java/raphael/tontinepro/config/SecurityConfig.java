@@ -21,7 +21,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         // Redirige vers /tontines une fois connecté avec Google
-                        .defaultSuccessUrl("/tontines", true)
+                        .defaultSuccessUrl("/dashboard", true)
                 );
 
         return http.build();

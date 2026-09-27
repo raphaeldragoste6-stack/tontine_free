@@ -8,21 +8,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import raphael.tontinepro.repository.TontineRepository;
 
 @Controller
-public class TontineViewController {
+public class DashboardController {
 
     private final TontineRepository tontineRepository;
 
-    public TontineViewController(TontineRepository tontineRepository) {
+    public DashboardController(TontineRepository tontineRepository) {
         this.tontineRepository = tontineRepository;
     }
 
-    @GetMapping("/tontines")
-    public String afficherPageTontines(Model model, @AuthenticationPrincipal OAuth2User principal) {
+    @GetMapping("/dashboard")
+    public String afficherDashboard(Model model, @AuthenticationPrincipal OAuth2User principal) {
         if (principal != null) {
+            // Récupération des infos Google
             model.addAttribute("userName", principal.getAttribute("name"));
+            model.addAttribute("userEmail", principal.getAttribute("email"));
             model.addAttribute("userPicture", principal.getAttribute("picture"));
         }
-        model.addAttribute("tontines", tontineRepository.findAll());
-        return "tontines"; // Renvoie le fichier tontines.html
+
+        // Données d'aperçu pour le dashboard
+        model.addAttribute("totalTontines", tontineRepository.count());
+        return "dashboard";
     }
 }

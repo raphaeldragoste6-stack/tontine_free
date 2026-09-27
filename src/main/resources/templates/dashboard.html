@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TontineFree - Tableau de Bord</title>
+    <link rel="stylesheet" th:href="@{/dashboard.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>Tontine<span>Pro</span></h2>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="/dashboard" class="nav-link active">
+                <span class="icon">📊</span> Dashboard
+            </a>
+            <a href="/tontines" class="nav-link">
+                <span class="icon">💰</span> Mes Tontines
+            </a>
+            <a href="#" class="nav-link">
+                <span class="icon">👥</span> Membres
+            </a>
+            <a href="#" class="nav-link">
+                <span class="icon">⚙️</span> Paramètres
+            </a>
+        </nav>
+
+        <!-- Profil de l'utilisateur Google -->
+        <div class="user-card">
+            <img th:src="${userPicture != null ? userPicture : 'https://via.placeholder.com/40'}" alt="Photo de profil" class="avatar">
+            <div class="user-details">
+                <p class="user-name" th:text="${userName != null ? userName : 'Utilisateur'}">Nom Utilisateur</p>
+                <p class="user-email" th:text="${userEmail != null ? userEmail : 'email@gmail.com'}">email@gmail.com</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Zone Principale -->
+    <main class="main-content">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="welcome-text">
+                <h1>Ravi de vous revoir, <span th:text="${userName}">Utilisateur</span> 👋</h1>
+                <p>Voici un aperçu de vos activités de tontines.</p>
+            </div>
+            <a href="/logout" class="btn-logout">Déconnexion</a>
+        </header>
+
+        <!-- Statistiques Rapides -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📂</div>
+                <div class="stat-info">
+                    <h3>Tontines Enregistrées</h3>
+                    <p class="stat-number" th:text="${totalTontines}">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">💵</div>
+                <div class="stat-info">
+                    <h3>Cotisations Totales</h3>
+                    <p class="stat-number">0 FCFA</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-info">
+                    <h3>Prochain Tirage</h3>
+                    <p class="stat-number">Aucun</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions Rapides -->
+        <section class="quick-actions">
+            <h2>Que souhaitez-vous faire ?</h2>
+            <div class="actions-grid">
+
+                <!-- Bouton de redirection vers /tontines -->
+                <div class="action-card">
+                    <div class="action-header">
+                        <h3>Gestion des Tontines</h3>
+                        <span class="badge">Espace Tontine</span>
+                    </div>
+                    <p>Créez de nouvelles tontines, consultez la liste et gérez les cotisations.</p>
+                    <a href="/tontines" class="btn-action">Accéder aux Tontines →</a>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-header">
+                        <h3>Mes Invitations</h3>
+                        <span class="badge badge-secondary">0 En attente</span>
+                    </div>
+                    <p>Consultez les tontines auxquelles vous avez été invité par d'autres membres.</p>
+                    <a href="#" class="btn-action btn-disabled">Voir les invitations</a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

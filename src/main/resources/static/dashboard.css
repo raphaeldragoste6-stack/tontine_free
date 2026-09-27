@@ -1,422 +1,258 @@
-/* Variables de couleurs */
-:root {
-    --bg-dark: #0d1117;
-    --bg-card: #161b22;
-    --bg-sidebar: #121721;
-    --primary-blue: #0052cc;
-    --primary-blue-hover: #003d99;
-    --primary-gold: #ff9900; /* Utilisé spécifiquement pour la marque / logo */
-    --text-light: #f0f6fc;
-    --text-muted: #8b949e;
-    --border-color: #30363d;
-    --danger-red: #da3633;
-}
-
-/* Reset & Layout Général */
+/* =======================================================
+   RESET & VARIABLES
+   ======================================================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --bg-dark: #0f172a;
+    --sidebar-bg: #1e293b;
+    --card-bg: #1e293b;
+    --accent-blue: #2563eb;
+    --hover-bg: #334155;
+    --text-light: #f8fafc;
+    --text-muted: #94a3b8;
+    --danger-red: #ef4444;
+    --danger-bg: rgba(239, 68, 68, 0.1);
+    --border-color: #334155;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-light);
-    min-height: 100vh;
 }
 
-.dashboard-layout {
+.app-layout {
     display: flex;
     min-height: 100vh;
 }
 
-/* =========================================================
-   SIDEBAR (Barre Latérale)
-   ========================================================= */
+/* =======================================================
+   SIDEBAR (DESKTOP)
+   ======================================================= */
 .sidebar {
     width: 280px;
-    background-color: var(--bg-sidebar);
-    border-right: 1px solid var(--border-color);
+    background-color: var(--sidebar-bg);
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    padding: 1.5rem 1rem;
+    justify-content: space-between;
+    border-right: 1px solid var(--border-color);
     position: fixed;
-    height: 100vh;
-    left: 0;
     top: 0;
+    bottom: 0;
+    left: 0;
     z-index: 100;
 }
 
-/* Brand (Logo + Nom de l'application avec le style identique à index) */
-.brand {
+.sidebar-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding-bottom: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
+    gap: 12px;
+    margin-bottom: 2rem;
 }
 
-.brand .app-logo {
-    height: 40px;
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+.logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
 }
 
-.brand h2 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: 0.5px;
+.brand-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-light);
 }
 
-.brand h2 span {
-    color: var(--primary-gold); /* La touche jaune dorée sur "Free" */
+.brand-name span {
+    color: #f97316;
 }
 
-/* Menu de Navigation (Gardé entièrement Bleu) */
+/* MENU DE NAVIGATION */
 .nav-menu {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    flex: 1;
+    gap: 0.5rem;
+    flex-grow: 1;
 }
 
-.nav-link {
+.nav-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1rem;
     color: var(--text-muted);
     text-decoration: none;
+    border-radius: 10px;
     font-weight: 500;
-    border-radius: 8px;
     transition: all 0.2s ease;
 }
 
-.nav-link .icon {
-    font-size: 1.2rem;
+.nav-item i {
+    font-size: 1.1rem;
+    width: 20px;
 }
 
-.nav-link:hover {
-    background-color: rgba(0, 82, 204, 0.15);
+.nav-item:hover {
+    background-color: var(--hover-bg);
     color: var(--text-light);
 }
 
-.nav-link.active {
-    background-color: var(--primary-blue);
-    color: #ffffff;
-    font-weight: 600;
-}
-
-/* Profil Utilisateur */
-.user-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0.85rem;
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    margin-top: auto;
-}
-
-.user-card .avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--primary-blue);
-}
-
-.user-details {
-    overflow: hidden;
-}
-
-.user-name {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-light);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.user-email {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* =========================================================
-   ZONE PRINCIPALE (Main Content)
-   ========================================================= */
-.main-content {
-    margin-left: 280px;
-    flex: 1;
-    padding: 2rem 2.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-/* Topbar */
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.welcome-text h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
+.nav-item.active {
+    background-color: var(--accent-blue);
     color: #ffffff;
 }
 
-.welcome-text h1 span {
-    color: #4d94ff;
+/* BOUTON DÉCONNEXION (PLAGÉ EN BAS DE PARAMÈTRES) */
+.logout-item {
+    margin-top: 0.5rem;
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-.welcome-text p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-top: 4px;
-}
-
-.btn-logout {
-    padding: 0.6rem 1.2rem;
-    background-color: transparent;
-    color: var(--danger-red);
-    border: 1px solid var(--danger-red);
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-}
-
-.btn-logout:hover {
+.logout-item:hover {
     background-color: var(--danger-red);
     color: #ffffff;
 }
 
-/* Cartes de Statistiques (Style Bleu d'origine) */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-}
-
-.stat-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--primary-blue);
-}
-
-.stat-icon {
-    font-size: 2rem;
-    background-color: rgba(0, 82, 204, 0.15);
-    width: 55px;
-    height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-}
-
-.stat-info h3 {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.stat-number {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-top: 4px;
-}
-
-/* Actions Rapides (Style Bleu d'origine) */
-.quick-actions h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-
-.actions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.action-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1rem;
-}
-
-.action-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.action-header h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.badge {
-    background-color: rgba(0, 82, 204, 0.2);
-    color: #4d94ff;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.badge-secondary {
-    background-color: rgba(139, 148, 158, 0.2);
-    color: var(--text-muted);
-}
-
-.action-card p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-/* Boutons d'action Bleus */
-.btn-action {
-    display: inline-block;
-    padding: 0.75rem 1.25rem;
-    background-color: var(--primary-blue);
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-decoration: none;
-    border-radius: 8px;
-    text-align: center;
-    transition: all 0.2s ease;
-}
-
-.btn-action:hover {
-    background-color: var(--primary-blue-hover);
-    transform: translateY(-2px);
-}
-
-.btn-disabled {
-    background-color: #21262d;
-    color: var(--text-muted);
-    pointer-events: none;
-    border: 1px solid var(--border-color);
-}
-
-/* Responsive Mobile */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .main-content {
-        margin-left: 0;
-        padding: 1.5rem 1rem;
-    }
-
-    .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-
-    .dashboard-layout {
-        flex-direction: column;
-    }
-}
-
-
-.user-card {
+/* PROFIL UTILISATEUR */
+.user-profile {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 0.85rem;
-    background-color: var(--bg-card);
+    padding: 0.75rem;
+    background-color: rgba(15, 23, 42, 0.5);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    margin-top: auto;
+    margin-top: 1.5rem;
 }
 
-/* Style de la photo de profil */
-.user-card .avatar {
-    width: 42px;
-    height: 42px;
+.avatar {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--primary-blue);
-    flex-shrink: 0;
 }
 
-/* Style du cercle si pas de photo (Initiale) */
-.avatar-placeholder {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: var(--primary-blue);
-    color: #ffffff;
+.user-info {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.1rem;
-    border: 2px solid var(--primary-blue);
-    flex-shrink: 0;
-}
-
-.user-details {
+    flex-direction: column;
     overflow: hidden;
 }
 
 .user-name {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--text-light);
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .user-email {
     font-size: 0.75rem;
     color: var(--text-muted);
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* =======================================================
+   MAIN CONTENT
+   ======================================================= */
+.main-content {
+    margin-left: 280px;
+    flex-grow: 1;
+    padding: 2rem;
+    width: calc(100% - 280px);
+}
+
+.content-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.content-header p {
+    color: var(--text-muted);
+}
+
+/* ELEMENTS MASQUÉS EN DESKTOP */
+.mobile-topbar, .overlay {
+    display: none;
+}
+
+/* =======================================================
+   RESPONSIVE DESIGN (MOBILE & PETITS ÉCRANS)
+   ======================================================= */
+@media (max-width: 992px) {
+
+    .desktop-only {
+        display: none;
+    }
+
+    /* BARRE HAUTE MOBILE */
+    .mobile-topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        background-color: var(--sidebar-bg);
+        border-bottom: 1px solid var(--border-color);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 90;
+    }
+
+    .mobile-topbar .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .menu-toggle {
+        background: transparent;
+        border: none;
+        color: var(--text-light);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    /* MASQUER LA SIDEBAR SUR MOBILE ET LA FAIRE GLISSER */
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        top: 60px; /* En dessous de la topbar */
+        width: 100%;
+        max-width: 300px;
+        height: calc(100vh - 60px);
+    }
+
+    /* CLASSE JS APPLIQUÉE AU CLIC DU BURGER */
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    /* OVERLAY ASSOMBRISSANT */
+    .overlay.active {
+        display: block;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 95;
+    }
+
+    /* AJUSTEMENT DU CONTENU PRINCIPAL SUR MOBILE */
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding-top: 5rem;
+    }
 }

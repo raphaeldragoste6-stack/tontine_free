@@ -1,152 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TontineFree</title>
+    <link rel="stylesheet" th:href="@{/dashboard.css}">
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
 
-    <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TontineFree - Tableau de Bord</title>
-        <link rel="stylesheet" th:href="@{/dashboard.css}">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <!-- Intégration de Font Awesome pour les vraies icônes vectorielles -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    </head>
-    <body>
+<div class="app-layout">
 
-    <div class="dashboard-layout">
+    <!-- BARRE HAUTE MOBILE (Visible uniquement sur mobile) -->
+    <header class="mobile-topbar">
+        <div class="brand">
+            <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+            <span class="brand-name">Tontine<span>Free</span></span>
+        </div>
+        <button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
 
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="brand">
-                <img th:src="@{/images/logo-tontine.jpg}" src="/images/logo-tontine.jpg" alt="Logo Tontine Free" class="app-logo">
-                <h2>Tontine<span>Free</span></h2>
+    <!-- BARRE DE NAVIGATION SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+
+        <div class="sidebar-brand desktop-only">
+            <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+            <span class="brand-name">Tontine<span>Free</span></span>
+        </div>
+
+        <nav class="nav-menu">
+            <a th:href="@{/dashboard}" class="nav-item active">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a th:href="@{/tontines}" class="nav-item">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Mes Tontines</span>
+            </a>
+            <a th:href="@{/membres}" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Membres</span>
+            </a>
+            <a th:href="@{/statistiques}" class="nav-item">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Statistiques</span>
+            </a>
+            <a th:href="@{/parametres}" class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Paramètres</span>
+            </a>
+
+            <!-- BOUTON DÉCONNEXION EN BAS DE PARAMÈTRES -->
+            <a th:href="@{/logout}" class="nav-item logout-item">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Déconnexion</span>
+            </a>
+        </nav>
+
+        <!-- CARTE PROFIL UTILISATEUR -->
+        <div class="user-profile">
+            <img th:src="${userPicture != null ? userPicture : '/images/default-avatar.png'}" alt="Avatar" class="avatar">
+            <div class="user-info">
+                <span class="user-name" th:text="${userName}">Raphael Dragoste</span>
+                <span class="user-email" th:text="${userEmail}">raphaeldragoste6@gmail.com</span>
             </div>
+        </div>
 
-            <nav class="nav-menu">
-                <a href="/dashboard" class="nav-link active">
-                    <span class="icon"><i class="fa-solid fa-chart-pie"></i></span> Dashboard
-                </a>
-                <a href="/tontines" class="nav-link">
-                    <span class="icon"><i class="fa-solid fa-vault"></i></span> Mes Tontines
-                </a>
-                <a href="/membres" class="nav-link">
-                    <span class="icon"><i class="fa-solid fa-users"></i></span> Membres
-                </a>
-                <a href="/statistiques" class="nav-link">
-                    <span class="icon"><i class="fa-solid fa-chart-line"></i></span> Statistiques
-                </a>
-                <a href="/parametres" class="nav-link">
-                    <span class="icon"><i class="fa-solid fa-gear"></i></span> Paramètres
-                </a>
-            </nav>
+    </aside>
 
-            <!-- Profil Utilisateur dans la Sidebar -->
-            <div class="user-card">
-                <!-- Si la photo existe et n'est pas vide -->
-                <img th:if="${userPicture != null and !#strings.isEmpty(userPicture)}"
-                     th:src="${userPicture}"
-                     class="avatar"
-                     alt="Avatar"
-                     referrerpolicy="no-referrer" />
+    <!-- OVERLAY POUR FERMER LE MENU EN CLIQUANT À L'EXTÉRIEUR (MOBILE) -->
+    <div id="overlay" class="overlay"></div>
 
-                <!-- Si pas de photo : afficher un cercle avec l'initiale du nom -->
-                <div th:unless="${userPicture != null and !#strings.isEmpty(userPicture)}" class="avatar-placeholder">
-                    <span th:text="${userName != null and !#strings.isEmpty(userName) ? userName.substring(0,1).toUpperCase() : 'U'}">U</span>
-                </div>
+    <!-- CONTENU PRINCIPAL DE LA PAGE -->
+    <main class="main-content">
+        <header class="content-header">
+            <h1>Ravi de vous revoir, <span th:text="${userName}">Raphael Dragoste</span> 👋</h1>
+            <p>Voici un aperçu de vos activités de tontines.</p>
+        </header>
 
-                <div class="user-details">
-                    <p class="user-name" th:text="${userName}">Raphael Dragoste</p>
-                    <p class="user-email" th:text="${userEmail}">raphaeldragoste6@gmail.com</p>
-                </div>
-            </div>
-        </aside>
+        <!-- Ton contenu principal de dashboard ici -->
+    </main>
 
-        <!-- Zone Principale -->
-        <main class="main-content">
+</div>
 
-            <!-- Topbar -->
-            <header class="topbar">
-                <div class="welcome-text">
-                    <h1>Ravi de vous revoir, <span th:text="${userName}">Utilisateur</span> 👋</h1>
-                    <p>Voici un aperçu de vos activités de tontines.</p>
-                </div>
-                <a class="btn-logout" th:href="@{/logout}" >
-                    <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
-                </a>
-            </header>
+<!-- SCRIPT JS POUR LE MENU BURGER -->
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
 
-            <!-- Statistiques Rapides -->
-            <section class="stats-grid">
-                <!-- Card 1: Tontines Enregistrées -->
-                <div class="stat-card">
-                    <div class="stat-icon" style="color: #3b82f6;"><i class="fa-solid fa-folder-closed"></i></div>
-                    <div class="stat-info">
-                        <h3>Tontines Enregistrées</h3>
-                        <p class="stat-number" th:text="${totalTontines}">0</p>
-                    </div>
-                </div>
+    function toggleMenu() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
 
-                <!-- Card 2: Cotisations Totales -->
-                <div class="stat-card">
-                    <div class="stat-icon" style="color: #10b981;"><i class="fa-solid fa-wallet"></i></div>
-                    <div class="stat-info">
-                        <h3>Cotisations Totales</h3>
-                        <p class="stat-number">
-                            <span th:text="${totalCotisations != null ? totalCotisations : 0}">0</span> FCFA
-                        </p>
-                    </div>
-                </div>
+        // Switch icône burger / fermeture
+        const icon = menuToggle.querySelector('i');
+        if (sidebar.classList.contains('open')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        } else {
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        }
+    }
 
-                <!-- Card 3: Prochain Tirage -->
-                <div class="stat-card">
-                    <div class="stat-icon" style="color: #a855f7;"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div class="stat-info">
-                        <h3>Prochain Tirage</h3>
-                        <p class="stat-number" th:text="${prochainBeneficiaire != null ? prochainBeneficiaire : 'Aucun'}">Aucun</p>
-                    </div>
-                </div>
+    menuToggle.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+</script>
 
-                <!-- Card 4: Retards de Paiement (Ajouté selon le sujet) -->
-                <div class="stat-card">
-                    <div class="stat-icon" style="color: #f43f5e;"><i class="fa-solid fa-clock"></i></div>
-                    <div class="stat-info">
-                        <h3>Cotisations en Retard</h3>
-                        <p class="stat-number" style="color: #f43f5e;" th:text="${cotisationsEnRetard != null ? cotisationsEnRetard : 0}">0</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Actions Rapides -->
-            <section class="quick-actions">
-                <h2>Que souhaitez-vous faire ?</h2>
-                <div class="actions-grid">
-
-                    <!-- Bouton de redirection vers /tontines -->
-                    <div class="action-card">
-                        <div class="action-header">
-                            <h3>Gestion des Tontines</h3>
-                            <span class="badge">Espace Tontine</span>
-                        </div>
-                        <p>Créez de nouvelles tontines, consultez la liste et gérez les cotisations.</p>
-                        <a href="/tontines" class="btn-action">Accéder aux Tontines →</a>
-                    </div>
-
-                    <!-- Mes Invitations -->
-                    <div class="action-card">
-                        <div class="action-header">
-                            <h3>Mes Invitations</h3>
-                            <span class="badge badge-secondary">0 En attente</span>
-                        </div>
-                        <p>Consultez les tontines auxquelles vous avez été invité par d'autres membres.</p>
-                        <a href="#" class="btn-action btn-disabled">Voir les invitations</a>
-                    </div>
-
-                </div>
-            </section>
-
-        </main>
-
-    </div>
-
-    </body>
-    </html>
-
+</body>
+</html>
